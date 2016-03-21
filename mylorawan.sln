@@ -21,6 +21,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.Dal"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.DalPsql", "Com.Bekijkhet.MyRouter.DalPsql\Com.Bekijkhet.MyRouter.DalPsql.csproj", "{A649EE22-854E-4053-9047-55BF6509EF8D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.Dal", "Com.Bekijkhet.MyBroker.Dal\Com.Bekijkhet.MyBroker.Dal.csproj", "{8349A17F-C717-4A31-853C-5662CBB3EE9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.DalPsql", "Com.Bekijkhet.MyBroker.DalPsql\Com.Bekijkhet.MyBroker.DalPsql.csproj", "{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{9796EBB1-47F6-45FF-9E97-0A2475755BC5}"
+	ProjectSection(SolutionItems) = preProject
+		myrouter_createdb.sql = myrouter_createdb.sql
+		mybroker_createdb.sql = mybroker_createdb.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -39,6 +49,10 @@ Global
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.Build.0 = Debug|x86
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.ActiveCfg = Release|x86
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.Build.0 = Release|x86
+		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Debug|x86.ActiveCfg = Debug|x86
+		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Debug|x86.Build.0 = Debug|x86
+		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Release|x86.ActiveCfg = Release|x86
+		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Release|x86.Build.0 = Release|x86
 		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Debug|x86.ActiveCfg = Debug|x86
 		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Debug|x86.Build.0 = Debug|x86
 		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Release|x86.ActiveCfg = Release|x86
@@ -63,9 +77,15 @@ Global
 		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Debug|x86.Build.0 = Debug|x86
 		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Release|x86.ActiveCfg = Release|x86
 		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Release|x86.Build.0 = Release|x86
+		{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}.Debug|x86.ActiveCfg = Debug|x86
+		{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}.Debug|x86.Build.0 = Debug|x86
+		{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}.Release|x86.ActiveCfg = Release|x86
+		{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}.Release|x86.Build.0 = Release|x86
 		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Debug|x86.Build.0 = Debug|Any CPU
 		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Release|x86.ActiveCfg = Release|Any CPU
 		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 EndGlobal

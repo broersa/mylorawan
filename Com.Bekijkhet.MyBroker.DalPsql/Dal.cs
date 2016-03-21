@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Com.Bekijkhet.MyRouter.Dal;
 using System.Collections.Generic;
 
-namespace Com.Bekijkhet.MyRouter.DalPsql
+namespace Com.Bekijkhet.MyBroker.DalPsql
 {
     public class Dal : IDal
     {
