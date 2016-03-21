@@ -33,5 +33,7 @@
   <ItemGroup>
     <Compile Include="IDal.cs" />
     <Compile Include="Application.cs" />
+    <Compile Include="Device.cs" />
+    <Compile Include="Session.cs" />
   </ItemGroup>
 </Project>
