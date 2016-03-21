@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{A0D9654F-171F-485D-98A4-4AD5BA487E85}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Com.Bekijkhet.MyRouter.Console</RootNamespace>
+    <AssemblyName>myrouter</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IProcessor.cs" />
+    <Compile Include="ProcessorImpl.cs" />
+    <Compile Include="TinyIoC.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Bekijkhet.Semtech\Com.Bekijkhet.Semtech.csproj">
+      <Project>{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}</Project>
+      <Name>Com.Bekijkhet.Semtech</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj">
+      <Project>{30BF2015-FCE7-4395-A846-031849A488A2}</Project>
+      <Name>Com.Bekijkhet.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.Lora\Com.Bekijkhet.Lora.csproj">
+      <Project>{2658618A-1674-4738-A517-38FCBE130DC0}</Project>
+      <Name>Com.Bekijkhet.Lora</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyRouter.BrokerClient\Com.Bekijkhet.MyRouter.BrokerClient.csproj">
+      <Project>{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}</Project>
+      <Name>Com.Bekijkhet.MyRouter.BrokerClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyRouter.BrokerClientImpl\Com.Bekijkhet.MyRouter.BrokerClientImpl.csproj">
+      <Project>{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}</Project>
+      <Name>Com.Bekijkhet.MyRouter.BrokerClientImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyRouter.Dal\Com.Bekijkhet.MyRouter.Dal.csproj">
+      <Project>{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}</Project>
+      <Name>Com.Bekijkhet.MyRouter.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyRouter.DalPsql\Com.Bekijkhet.MyRouter.DalPsql.csproj">
+      <Project>{A649EE22-854E-4053-9047-55BF6509EF8D}</Project>
+      <Name>Com.Bekijkhet.MyRouter.DalPsql</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="app.config" />
+  </ItemGroup>
+</Project>

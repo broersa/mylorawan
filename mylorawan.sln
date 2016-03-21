@@ -1,0 +1,71 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Semtech", "Com.Bekijkhet.Semtech\Com.Bekijkhet.Semtech.csproj", "{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Semtech.Tests", "Com.Bekijkhet.Semtech.Tests\Com.Bekijkhet.Semtech.Tests.csproj", "{CE450DA4-C821-44E3-87AD-A21EE22FB80D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Logger", "Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj", "{30BF2015-FCE7-4395-A846-031849A488A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Lora", "Com.Bekijkhet.Lora\Com.Bekijkhet.Lora.csproj", "{2658618A-1674-4738-A517-38FCBE130DC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.Console", "Com.Bekijkhet.MyBroker.Console\Com.Bekijkhet.MyBroker.Console.csproj", "{C234D50E-3AE3-4B93-9343-C74C958D3556}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.Console", "Com.Bekijkhet.MyRouter.Console\Com.Bekijkhet.MyRouter.Console.csproj", "{A0D9654F-171F-485D-98A4-4AD5BA487E85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.BrokerClient", "Com.Bekijkhet.MyRouter.BrokerClient\Com.Bekijkhet.MyRouter.BrokerClient.csproj", "{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.BrokerClientImpl", "Com.Bekijkhet.MyRouter.BrokerClientImpl\Com.Bekijkhet.MyRouter.BrokerClientImpl.csproj", "{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.Dal", "Com.Bekijkhet.MyRouter.Dal\Com.Bekijkhet.MyRouter.Dal.csproj", "{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyRouter.DalPsql", "Com.Bekijkhet.MyRouter.DalPsql\Com.Bekijkhet.MyRouter.DalPsql.csproj", "{A649EE22-854E-4053-9047-55BF6509EF8D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}.Debug|x86.ActiveCfg = Debug|x86
+		{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}.Debug|x86.Build.0 = Debug|x86
+		{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}.Release|x86.ActiveCfg = Release|x86
+		{0EB6AE09-8BF0-4EE8-A6B6-FD18E14CC598}.Release|x86.Build.0 = Release|x86
+		{2658618A-1674-4738-A517-38FCBE130DC0}.Debug|x86.ActiveCfg = Debug|x86
+		{2658618A-1674-4738-A517-38FCBE130DC0}.Debug|x86.Build.0 = Debug|x86
+		{2658618A-1674-4738-A517-38FCBE130DC0}.Release|x86.ActiveCfg = Release|x86
+		{2658618A-1674-4738-A517-38FCBE130DC0}.Release|x86.Build.0 = Release|x86
+		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.ActiveCfg = Debug|x86
+		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.Build.0 = Debug|x86
+		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.ActiveCfg = Release|x86
+		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.Build.0 = Release|x86
+		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Debug|x86.ActiveCfg = Debug|x86
+		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Debug|x86.Build.0 = Debug|x86
+		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Release|x86.ActiveCfg = Release|x86
+		{A0D9654F-171F-485D-98A4-4AD5BA487E85}.Release|x86.Build.0 = Release|x86
+		{A649EE22-854E-4053-9047-55BF6509EF8D}.Debug|x86.ActiveCfg = Debug|x86
+		{A649EE22-854E-4053-9047-55BF6509EF8D}.Debug|x86.Build.0 = Debug|x86
+		{A649EE22-854E-4053-9047-55BF6509EF8D}.Release|x86.ActiveCfg = Release|x86
+		{A649EE22-854E-4053-9047-55BF6509EF8D}.Release|x86.Build.0 = Release|x86
+		{C234D50E-3AE3-4B93-9343-C74C958D3556}.Debug|x86.ActiveCfg = Debug|x86
+		{C234D50E-3AE3-4B93-9343-C74C958D3556}.Debug|x86.Build.0 = Debug|x86
+		{C234D50E-3AE3-4B93-9343-C74C958D3556}.Release|x86.ActiveCfg = Release|x86
+		{C234D50E-3AE3-4B93-9343-C74C958D3556}.Release|x86.Build.0 = Release|x86
+		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Debug|x86.Build.0 = Debug|Any CPU
+		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Release|x86.ActiveCfg = Release|Any CPU
+		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Release|x86.Build.0 = Release|Any CPU
+		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Debug|x86.Build.0 = Debug|Any CPU
+		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Release|x86.Build.0 = Release|Any CPU
+		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Debug|x86.ActiveCfg = Debug|x86
+		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Debug|x86.Build.0 = Debug|x86
+		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Release|x86.ActiveCfg = Release|x86
+		{DBF7CE48-C3FC-4A48-B4A1-48E1DEEE3B34}.Release|x86.Build.0 = Release|x86
+		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Debug|x86.Build.0 = Debug|Any CPU
+		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9CF7090-EE19-4511-95A8-4FED7E4EC96E}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
