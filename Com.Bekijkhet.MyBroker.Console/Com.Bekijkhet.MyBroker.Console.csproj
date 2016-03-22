@@ -51,6 +51,7 @@
     <Compile Include="MainModule.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="ReturnMessage.cs" />
+    <Compile Include="MyBootstrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -60,6 +61,26 @@
     <ProjectReference Include="..\Com.Bekijkhet.Semtech\Com.Bekijkhet.Semtech.csproj">
       <Project>{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}</Project>
       <Name>Com.Bekijkhet.Semtech</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.Lora\Com.Bekijkhet.Lora.csproj">
+      <Project>{2658618A-1674-4738-A517-38FCBE130DC0}</Project>
+      <Name>Com.Bekijkhet.Lora</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.Dal\Com.Bekijkhet.MyBroker.Dal.csproj">
+      <Project>{8349A17F-C717-4A31-853C-5662CBB3EE9D}</Project>
+      <Name>Com.Bekijkhet.MyBroker.Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.DalPsql\Com.Bekijkhet.MyBroker.DalPsql.csproj">
+      <Project>{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}</Project>
+      <Name>Com.Bekijkhet.MyBroker.DalPsql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.Bll\Com.Bekijkhet.MyBroker.Bll.csproj">
+      <Project>{D7F2503B-286F-4797-875D-E07A11342534}</Project>
+      <Name>Com.Bekijkhet.MyBroker.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.BllImpl\Com.Bekijkhet.MyBroker.BllImpl.csproj">
+      <Project>{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}</Project>
+      <Name>Com.Bekijkhet.MyBroker.BllImpl</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ namespace Com.Bekijkhet.MyBroker.Dal
 {
     public interface IDal
     {
-        void BeginTransaction();
+        Task BeginTransaction();
 
         void CommitTransaction();
 
@@ -32,18 +32,6 @@ namespace Com.Bekijkhet.MyBroker.Dal
 		Task<NwkAddr> GetFreeNwkAddr();
 		Task SetActiveSessionsInactive(long device);
 
-/*
-		AddDevice(device *Device) (int64, error)
-		GetDevice(id int64) (*Device, error)
-		GetDeviceOnDevEUI(deveui string) (*Device, error)
-		GetDeviceOnAppEUIDevEUI(appeui string, deveui string) (*Device, error)
-		AddSession(session *Session) (int64, error)
-		GetSessionOnID(id int64) (*Session, error)
-		GetSessionOnDeviceActive(device int64) (*Session, error)
-		GetSessionOnDeviceDevNonceActive(device int64, devnonce string) (*Session, error)
-		GetFreeNwkAddr() (*NwkAddr, error)
-		SetActiveSessionsInactive(device int64) error
-*/
     }
 }
 

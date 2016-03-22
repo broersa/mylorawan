@@ -70,6 +70,14 @@ namespace Com.Bekijkhet.Lora
             return returnvalue;
         }
 
+        public byte[] GetAppNonce() 
+        {
+            Random rnd = new Random();
+            Byte[] b = new Byte[3];
+            rnd.NextBytes(b);
+            return b;
+        }
+
         #endregion
 
         private Mhdr UnmarshalMhdr(byte mhdr)

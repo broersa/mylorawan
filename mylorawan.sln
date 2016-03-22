@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sql", "sql", "{9796EBB1-47F
 		mybroker_createdb.sql = mybroker_createdb.sql
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.Bll", "Com.Bekijkhet.MyBroker.Bll\Com.Bekijkhet.MyBroker.Bll.csproj", "{D7F2503B-286F-4797-875D-E07A11342534}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.BllImpl", "Com.Bekijkhet.MyBroker.BllImpl\Com.Bekijkhet.MyBroker.BllImpl.csproj", "{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -45,6 +49,10 @@ Global
 		{2658618A-1674-4738-A517-38FCBE130DC0}.Debug|x86.Build.0 = Debug|x86
 		{2658618A-1674-4738-A517-38FCBE130DC0}.Release|x86.ActiveCfg = Release|x86
 		{2658618A-1674-4738-A517-38FCBE130DC0}.Release|x86.Build.0 = Release|x86
+		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Debug|x86.Build.0 = Debug|Any CPU
+		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Release|x86.ActiveCfg = Release|Any CPU
+		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Release|x86.Build.0 = Release|Any CPU
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.ActiveCfg = Debug|x86
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.Build.0 = Debug|x86
 		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.ActiveCfg = Release|x86
@@ -69,6 +77,10 @@ Global
 		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Debug|x86.Build.0 = Debug|Any CPU
 		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Release|x86.ActiveCfg = Release|Any CPU
 		{CE450DA4-C821-44E3-87AD-A21EE22FB80D}.Release|x86.Build.0 = Release|Any CPU
+		{D7F2503B-286F-4797-875D-E07A11342534}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D7F2503B-286F-4797-875D-E07A11342534}.Debug|x86.Build.0 = Debug|Any CPU
+		{D7F2503B-286F-4797-875D-E07A11342534}.Release|x86.ActiveCfg = Release|Any CPU
+		{D7F2503B-286F-4797-875D-E07A11342534}.Release|x86.Build.0 = Release|Any CPU
 		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Debug|x86.Build.0 = Debug|Any CPU
 		{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}.Release|x86.ActiveCfg = Release|Any CPU

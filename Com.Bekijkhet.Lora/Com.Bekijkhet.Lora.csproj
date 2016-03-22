@@ -38,5 +38,6 @@
     <Compile Include="InvalidMTypeException.cs" />
     <Compile Include="JoinRequest.cs" />
     <Compile Include="InvalidMICException.cs" />
+    <Compile Include="JoinAccept.cs" />
   </ItemGroup>
 </Project>
