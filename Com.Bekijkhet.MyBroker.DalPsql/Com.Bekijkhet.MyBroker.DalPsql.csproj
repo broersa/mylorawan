@@ -32,5 +32,22 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Dal.cs" />
+    <Compile Include="DalConfig.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.3.0.5\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.Dal\Com.Bekijkhet.MyBroker.Dal.csproj">
+      <Project>{8349A17F-C717-4A31-853C-5662CBB3EE9D}</Project>
+      <Name>Com.Bekijkhet.MyBroker.Dal</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

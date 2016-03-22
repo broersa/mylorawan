@@ -15,12 +15,24 @@ namespace Com.Bekijkhet.MyBroker.Dal
         void Close();
 
         Task<long> AddApplication(Application application);
+		Task<Application> GetApplication(long id);
+		Task<Application> GetApplicationOnName(string name);
+		Task<Application> GetApplicationOnAppEUI(string appeui);
 
-		/*
-		AddApplication(application *Application) (int64, error)
-		GetApplication(id int64) (*Application, error)
-		GetApplicationOnName(appname string) (*Application, error)
-		GetApplicationOnAppEUI(appeui string) (*Application, error)
+		Task<long> AddDevice(Device device);
+		Task<Device> GetDevice(long id);
+		Task<Device> GetDeviceOnDevEUI(string deveui);
+		Task<Device> GetDeviceOnAppEUIDevEUI(string appeui, string deveui);
+
+		Task<long> AddSession(Session session);
+		Task<Session> GetSession(long id);
+		Task<Session> GetSessionOnDeviceActive(long device);
+		Task<Session> GetSessionOnDeviceDevNonceActive(long device, string devnonce);
+
+		Task<NwkAddr> GetFreeNwkAddr();
+		Task SetActiveSessionsInactive(long device);
+
+/*
 		AddDevice(device *Device) (int64, error)
 		GetDevice(id int64) (*Device, error)
 		GetDeviceOnDevEUI(deveui string) (*Device, error)
