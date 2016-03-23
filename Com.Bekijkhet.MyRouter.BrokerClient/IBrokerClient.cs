@@ -7,7 +7,7 @@ namespace Com.Bekijkhet.MyRouter.BrokerClient
     public interface IBrokerClient
     {
         Task<Broker> GetBrokerOnAppEUI(string appeui);
-        Task<Txpk> SendMessage(string endpoint, Rxpk rxpk);
+        Task<ReturnMessage> SendMessage(string endpoint, Message message);
     }
 }
 

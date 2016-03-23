@@ -30,12 +30,12 @@ namespace Com.Bekijkhet.MyRouter.Console
         #region IProcessor implementation
         public async Task Process (UdpReceiveResult message, UdpClient client)
         {
-            var bx = await _brokerclient.GetBrokerOnAppEUI("");
             var now = DateTime.UtcNow;
             try {
                 switch (_semtech.GetIdentifier(message.Buffer))
                 {
                 case Identifier.PUSH_DATA:
+                    System.Console.WriteLine("pushdata");
                     var pushdata = _semtech.UnmarshalPushData(message.Buffer);
                     IPEndPoint ep = null;
                     if (_gateways.TryGetValue(ByteArrayToString(pushdata.GatewayMACAddress), out ep))
@@ -48,8 +48,14 @@ namespace Com.Bekijkhet.MyRouter.Console
                             case MType.JoinRequest:
                                 var joinrequest = _lora.UnmarshalJoinRequest(data);
                                 var broker = await _brokerclient.GetBrokerOnAppEUI(ByteArrayToString(joinrequest.AppEUI));
-                                var s = await _brokerclient.SendMessage(broker.Endpoint, rxpk);
-
+                                var joinaccept = await _brokerclient.SendMessage(broker.Endpoint, new Message() { Rxpk = rxpk } );
+                                System.Console.WriteLine(joinaccept);
+                                var pullresp = _semtech.MarshalPullResp(new PullResp() {
+                                    ProtocolVersion = 1,
+                                    Identifier = Identifier.PULL_RESP,
+                                    Txpk = joinaccept.Txpk
+                                });
+                                client.SendAsync(pullresp, pullresp.Length, ep);
                                 break;
                             case MType.ConfirmedDataDown:
 
@@ -62,6 +68,7 @@ namespace Com.Bekijkhet.MyRouter.Console
                     }
                     break;
                 case Identifier.PULL_DATA:
+                    System.Console.WriteLine("pulldata");
                     var pulldata = _semtech.UnmarshalPullData(message.Buffer);
                     _gateways[ByteArrayToString(pulldata.GatewayMACAddress)]=message.RemoteEndPoint;
                     var pullack = _semtech.MarshalPullAck(pulldata.RandomToken); 
@@ -70,7 +77,7 @@ namespace Com.Bekijkhet.MyRouter.Console
                 }
             }
             catch (Exception e) {
-                Log.Error (e, now);
+                //Log.Error (e, now);
             }
         }
         #endregion

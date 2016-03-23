@@ -58,8 +58,12 @@ namespace Com.Bekijkhet.Lora
             returnvalue.DevNonce = new byte[2];
             Buffer.BlockCopy(message, 17, returnvalue.DevNonce, 0, 2);
             returnvalue.Mic = new byte[4];
+            Buffer.BlockCopy(message, 19, returnvalue.Mic, 0, 4); 
 
-            var mic = AESCMAC(appkey, message);
+            var micpart = new byte[19];
+            Buffer.BlockCopy(message, 0, micpart, 0, 19);
+
+            var mic = AESCMAC(appkey, micpart);
 
             if (!(returnvalue.Mic[0] == mic[0] &&
                   returnvalue.Mic[1] == mic[1] &&

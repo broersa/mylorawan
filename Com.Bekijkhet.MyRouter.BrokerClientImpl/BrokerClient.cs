@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Com.Bekijkhet.MyRouter.BrokerClient;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -32,20 +33,23 @@ namespace Com.Bekijkhet.MyRouter.BrokerClientImpl
             };
         }
 
-        public async Task<Txpk> SendMessage(string endpoint, Rxpk rxpk)
+        public async Task<Com.Bekijkhet.MyRouter.BrokerClient.ReturnMessage> SendMessage(string endpoint, Com.Bekijkhet.MyRouter.BrokerClient.Message message)
         {
-            ReturnMessage returnmessage = null; 
-            var message = new Message() { 
-                Rxpk = rxpk
+            Com.Bekijkhet.MyRouter.BrokerClient.ReturnMessage returnmessage = null; 
+            var msg = new Com.Bekijkhet.MyRouter.BrokerClientImpl.Message() { 
+                Rxpk = message.Rxpk
             };
             using (var h = new HttpClient()) {
-                var r = await h.PostAsync(endpoint+"/message", new StringContent(JsonConvert.SerializeObject(message)));
+                var r = await h.PostAsync(endpoint+"/message", new StringContent(JsonConvert.SerializeObject(msg)));
                 if (!r.IsSuccessStatusCode) {
                     throw new SendMessageException();
                 }
-                returnmessage = JsonConvert.DeserializeObject<ReturnMessage>(await r.Content.ReadAsStringAsync());
+                var rmsg = JsonConvert.DeserializeObject<Com.Bekijkhet.MyRouter.BrokerClientImpl.ReturnMessage>(await r.Content.ReadAsStringAsync());
+                returnmessage = new Com.Bekijkhet.MyRouter.BrokerClient.ReturnMessage() {
+                    Txpk = rmsg.Txpk
+                };
             }
-            return returnmessage.Txpk;
+            return returnmessage;
         }
 
         #endregion

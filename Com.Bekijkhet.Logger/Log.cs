@@ -11,12 +11,14 @@ namespace Com.Bekijkhet.Logger
         {
             _telemetry.TrackTrace(message, Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Information);
             _telemetry.Flush ();
+            Console.WriteLine(message);
         }
 
         public static void Error(Exception e, DateTime duration)
         {
             _telemetry.TrackException(e);
             _telemetry.Flush ();
+            Console.WriteLine(e.ToString());
         }
     }
 }

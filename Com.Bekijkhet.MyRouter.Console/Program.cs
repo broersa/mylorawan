@@ -25,8 +25,8 @@ namespace Com.Bekijkhet.MyRouter.Console
             container.Register<IDal, Com.Bekijkhet.MyRouter.DalPsql.Dal>().AsMultiInstance();
             container.Register<IBrokerClient, Com.Bekijkhet.MyRouter.BrokerClientImpl.BrokerClient>().AsMultiInstance();
             container.Register<IProcessor, ProcessorImpl> ().AsMultiInstance();
-            TelemetryConfiguration.Active.InstrumentationKey = Environment.GetEnvironmentVariable("MYROUTER_APPINSIGHT");
-            Log.Info ("Starting MyRouter...", now);
+            //TelemetryConfiguration.Active.InstrumentationKey = Environment.GetEnvironmentVariable("MYROUTER_APPINSIGHT");
+            //Log.Info ("Starting MyRouter...", now);
             UDPListener ().Wait();
         }
 
@@ -44,7 +44,7 @@ namespace Com.Bekijkhet.MyRouter.Console
                     }
                     catch (Exception e)
                     {
-                        Log.Error(e, now);
+                        //Log.Error(e, now);
                     }
                 }
             }

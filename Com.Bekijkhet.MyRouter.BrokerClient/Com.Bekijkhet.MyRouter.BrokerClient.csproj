@@ -34,11 +34,21 @@
     <Compile Include="IBrokerClient.cs" />
     <Compile Include="Broker.cs" />
     <Compile Include="SendMessageException.cs" />
+    <Compile Include="ReturnMessage.cs" />
+    <Compile Include="Message.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Com.Bekijkhet.Semtech\Com.Bekijkhet.Semtech.csproj">
       <Project>{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}</Project>
       <Name>Com.Bekijkhet.Semtech</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

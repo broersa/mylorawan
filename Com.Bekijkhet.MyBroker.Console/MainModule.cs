@@ -1,6 +1,7 @@
 ﻿using System;
 using Nancy;
 using Nancy.Responses;
+using Nancy.Extensions;
 using Newtonsoft.Json;
 using Com.Bekijkhet.Lora;
 using Com.Bekijkhet.MyBroker.Dal;
@@ -13,17 +14,19 @@ namespace Com.Bekijkhet.MyBroker.Console
     {
         public MainModule(ILora lora, IBll bll)
         {
-            Get["/", runAsync: true] = async (_, token) =>
+            Get["/", true] = async (_, ct) =>
             {
                 return "Hello World!";
             };
-            Get["/hasappeui/{appeui}", runAsync: true] = async (parameters, token) => {
+            Get["/hasappeui/{appeui}", true] = async (parameters, ct) =>
+            {
                 return Response.AsJson(true);
             };
-            Post["/message", runAsync: true] = async (parameters, token) => {
+            Post["/message", true] = async (parameters, ct) => 
+            {
                 ReturnMessage returnmessage = null;
                 try {
-                    var message = JsonConvert.DeserializeObject<Message>(Request.Body.ToString());
+                    var message = JsonConvert.DeserializeObject<Message>(Request.Body.AsString());
                     var data = Convert.FromBase64String(message.Rxpk.Data);
                     switch (lora.GetMType(data[0])) {
                     case MType.JoinRequest:

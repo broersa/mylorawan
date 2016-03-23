@@ -296,6 +296,7 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
         public async Task<Session> GetSessionOnDeviceDevNonceActive(long device, string devnonce)
         {
             Session returnvalue = null;
+            try {
             await this.Connect();
             using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwkaddr, sesnwkskey, sesappskey, sesactive from sessions sesdev=@sesdev and sesdevnonce=@sesdevnonce and sesactive > now()", _SqlConnection, _SqlTransaction))
             {
@@ -317,6 +318,9 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
                         Active = dr.GetDateTime(7)
                     };
                 }
+            }
+            } catch (Exception e) {
+                throw;
             }
             return returnvalue;
         }

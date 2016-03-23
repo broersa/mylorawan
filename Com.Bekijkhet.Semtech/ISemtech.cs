@@ -9,7 +9,7 @@ namespace Com.Bekijkhet.Semtech
         PullData UnmarshalPullData(byte[] packet);
         byte[] MarshalPushAck(byte[] randomtoken);
         byte[] MarshalPullAck(byte[] randomtoken);
-        //byte[] Marshall
+        byte[] MarshalPullResp(PullResp pullresp);
     }
 }
 
