@@ -8,6 +8,7 @@ namespace Com.Bekijkhet.Lora
         JoinRequest UnmarshalJoinRequest(byte[] message);
         JoinRequest UnmarshalJoinRequestAndValidate(byte[] appkey, byte[] message);
         byte[] GetAppNonce();
+        byte[] MarshalJoinAccept(JoinAccept joinaccept, byte[] appkey);
     }
 }
 

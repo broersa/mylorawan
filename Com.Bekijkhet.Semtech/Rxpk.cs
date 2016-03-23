@@ -12,9 +12,9 @@ namespace Com.Bekijkhet.Semtech
         [JsonProperty("freq")]
         public float Freq { get; set; }
         [JsonProperty("chan")]
-        public uint Chan { get; set; }
+        public UInt16 Chan { get; set; }
         [JsonProperty("rfch")]
-        public uint RfCh { get; set; }
+        public UInt16 RfCh { get; set; }
         [JsonProperty("stat")]
         public byte CRCStatus { get; set; }
         [JsonProperty("modu")]
@@ -28,7 +28,7 @@ namespace Com.Bekijkhet.Semtech
         [JsonProperty("lsnr")]
         public float LoraSNR {get;set;}
         [JsonProperty("size")]
-        public uint Size {get;set;}
+        public UInt16 Size {get;set;}
         [JsonProperty("data")]
         public string Data { get; set;}
     }

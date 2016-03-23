@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Text;
 
 namespace Com.Bekijkhet.Lora
 {
@@ -78,6 +79,56 @@ namespace Com.Bekijkhet.Lora
             return b;
         }
 
+        public byte[] MarshalJoinAccept(JoinAccept joinaccept, byte[] appkey)
+        {
+            // for now we skip the optional cflist
+            var buffer = new byte[12];
+            Buffer.BlockCopy(joinaccept.AppNonce, 0, buffer, 0, 3);
+            Buffer.BlockCopy(joinaccept.NetId, 0, buffer, 3, 3);
+            Buffer.BlockCopy(BitConverter.GetBytes(joinaccept.DevAddr), 0, buffer, 6, 4);
+            Buffer.SetByte(buffer, 10, joinaccept.DlSettings);
+            Buffer.SetByte(buffer, 11, joinaccept.RxDelay);
+
+            var micdata = new byte[13];
+            Buffer.SetByte(micdata, 0, MarshalMhdr(joinaccept.Mhdr));
+            Buffer.BlockCopy(buffer, 0, micdata, 1, 12);
+
+            var mic = AESCMAC(appkey, micdata);
+
+            var ja = new byte[16];
+            Buffer.BlockCopy(buffer, 0, ja, 0, 12);
+            Buffer.BlockCopy(mic, 0, ja, 12, 4);
+
+            var crypted = Decrypt(ja, appkey);
+
+            var returnmessage = new byte[1 + crypted.Length + 4];
+            Buffer.SetByte(returnmessage, 0, MarshalMhdr(joinaccept.Mhdr));
+            Buffer.BlockCopy(crypted, 0, returnmessage, 1, crypted.Length);
+            Buffer.BlockCopy(mic, 0, returnmessage, 1+crypted.Length, 4);
+
+            return returnmessage;
+        }
+
+        public static string Encrypt(string toEncrypt) {
+            byte[] keyArray = UTF8Encoding.UTF8.GetBytes("12345678901234567890123456789012"); // 256-AES key
+            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
+            RijndaelManaged rDel = new RijndaelManaged();
+            rDel.Key = keyArray;
+            rDel.Mode = CipherMode.ECB; // http://msdn.microsoft.com/en-us/library/system.security.cryptography.ciphermode.aspx
+            ICryptoTransform cTransform = rDel.CreateEncryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+        }
+
+        public static byte[] Decrypt(byte[] data, byte[] appkey) {
+            RijndaelManaged rDel = new RijndaelManaged();
+            rDel.Key = appkey;
+            rDel.Mode = CipherMode.ECB; // http://msdn.microsoft.com/en-us/library/system.security.cryptography.ciphermode.aspx
+            ICryptoTransform cTransform = rDel.CreateDecryptor();
+            return cTransform.TransformFinalBlock(data, 0, data.Length);
+        }
+
+
         #endregion
 
         private Mhdr UnmarshalMhdr(byte mhdr)
@@ -86,6 +137,11 @@ namespace Com.Bekijkhet.Lora
                 MType = GetMType(mhdr),
                 Major = (byte)(mhdr & 0x03)
             };
+        }
+
+        private byte MarshalMhdr(Mhdr mhdr)
+        {
+            return (byte)((((byte)mhdr.MType) << ((byte)5)) + mhdr.Major);
         }
 
         private byte[] AESEncrypt(byte[] key, byte[] iv, byte[] data)
@@ -167,6 +223,8 @@ namespace Com.Bekijkhet.Lora
 
             return HashValue;
         }
+
+
     }
 }
 

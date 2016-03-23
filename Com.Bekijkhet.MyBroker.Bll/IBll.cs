@@ -5,7 +5,7 @@ namespace Com.Bekijkhet.MyBroker.Bll
 {
     public interface IBll
     {
-        Task ProcessJoinRequest(byte[] data);
+        Task<byte[]> ProcessJoinRequest(byte[] data);
 
     }
 }

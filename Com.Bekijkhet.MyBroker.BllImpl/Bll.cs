@@ -19,14 +19,15 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
 
         #region IBll implementation
 
-        public async Task ProcessJoinRequest(byte[] data)
+        public async Task<byte[]> ProcessJoinRequest(byte[] data)
         {
-            Device returnvalue = null;
+            byte[] returnvalue;
             try {
                 await _dal.BeginTransaction();
                 var joinrequest = _lora.UnmarshalJoinRequest(data);
                 var device = await _dal.GetDeviceOnAppEUIDevEUI(ByteArrayToString(joinrequest.AppEUI), ByteArrayToString(joinrequest.DevEUI));
-                var joinrequestvalidated = _lora.UnmarshalJoinRequestAndValidate(StringToByteArray(device.AppKey), data);
+                var appkey = StringToByteArray(device.AppKey);
+                var joinrequestvalidated = _lora.UnmarshalJoinRequestAndValidate(appkey, data);
                 var devnonce = ByteArrayToString(joinrequestvalidated.DevNonce);
                 if ((await _dal.GetSessionOnDeviceDevNonceActive(device.Id, devnonce))==null)
                 {
@@ -44,7 +45,18 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
                     AppSKey = "",
                     Active = DateTime.UtcNow
                 });
-                _lora.
+                var joinaccept = new JoinAccept() {
+                    Mhdr = new Mhdr() { MType = MType.JoinAccept, Major=1},
+                    AppNonce = appnonce,
+                    NetId = GetNetId(),
+                    DevAddr = Convert.ToUInt32((GetNwkId()*16777216)+freenwkaddr.NetworkAddress),
+                    DlSettings = GetDlSettings(),
+                    RxDelay = GetRxDelay(),
+                    CfList = GetCfList()
+                };
+
+                returnvalue = _lora.MarshalJoinAccept(joinaccept, appkey);
+                        
 
                 _dal.CommitTransaction();
             }
@@ -59,6 +71,26 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
         }
 
         #endregion
+        
+        private static byte[] GetNetId() {
+            return new byte[3];
+        }
+
+        private static byte GetNwkId() {
+            return 0;
+        }
+
+        private static byte GetDlSettings() {
+            return 0 + 0 + 7; // 7 = max datarate?
+        }
+
+        private static byte GetRxDelay() {
+            return 0;
+        }
+
+        private static byte[] GetCfList() {
+            return new byte[16];
+        }
 
         private static string ByteArrayToString(byte[] ba)
         {
