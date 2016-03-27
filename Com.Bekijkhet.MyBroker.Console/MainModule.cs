@@ -7,11 +7,14 @@ using Com.Bekijkhet.Lora;
 using Com.Bekijkhet.MyBroker.Dal;
 using Com.Bekijkhet.MyBroker.Bll;
 using Com.Bekijkhet.Semtech;
+using log4net;
 
 namespace Com.Bekijkhet.MyBroker.Console
 {
     public class MainModule : NancyModule
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public MainModule(ILora lora, IBll bll)
         {
             Get["/", true] = async (_, ct) =>
@@ -26,6 +29,7 @@ namespace Com.Bekijkhet.MyBroker.Console
             {
                 ReturnMessage returnmessage = null;
                 try {
+                    //var s = Request.Body.AsString();
                     var message = JsonConvert.DeserializeObject<Message>(Request.Body.AsString());
                     var data = Convert.FromBase64String(message.Rxpk.Data);
                     switch (lora.GetMType(data[0])) {
@@ -53,7 +57,7 @@ namespace Com.Bekijkhet.MyBroker.Console
 
                         break;
                     }
-                    return Response.AsJson(returnmessage);
+                    return Response.AsText(JsonConvert.SerializeObject(returnmessage), "application/json");
                 }
                 catch (Exception e)
                 {

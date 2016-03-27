@@ -39,5 +39,10 @@
     <Compile Include="JoinRequest.cs" />
     <Compile Include="InvalidMICException.cs" />
     <Compile Include="JoinAccept.cs" />
+    <Compile Include="UnconfirmedDataDown.cs" />
+    <Compile Include="FCtrlDownlink.cs" />
+    <Compile Include="FhdrDownlink.cs" />
+    <Compile Include="FCtrlUplink.cs" />
+    <Compile Include="FhdrUplink.cs" />
   </ItemGroup>
 </Project>

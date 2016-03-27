@@ -44,7 +44,8 @@ namespace Com.Bekijkhet.MyRouter.BrokerClientImpl
                 if (!r.IsSuccessStatusCode) {
                     throw new SendMessageException();
                 }
-                var rmsg = JsonConvert.DeserializeObject<Com.Bekijkhet.MyRouter.BrokerClientImpl.ReturnMessage>(await r.Content.ReadAsStringAsync());
+                var s = await r.Content.ReadAsStringAsync();
+                var rmsg = JsonConvert.DeserializeObject<Com.Bekijkhet.MyRouter.BrokerClientImpl.ReturnMessage>(s);
                 returnmessage = new Com.Bekijkhet.MyRouter.BrokerClient.ReturnMessage() {
                     Txpk = rmsg.Txpk
                 };

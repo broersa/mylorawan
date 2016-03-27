@@ -31,8 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="Microsoft.ApplicationInsights">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.0.1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -47,10 +47,6 @@
     <ProjectReference Include="..\Com.Bekijkhet.Semtech\Com.Bekijkhet.Semtech.csproj">
       <Project>{D9CD9366-CAB7-4436-A27B-C9972FBF44C7}</Project>
       <Name>Com.Bekijkhet.Semtech</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj">
-      <Project>{30BF2015-FCE7-4395-A846-031849A488A2}</Project>
-      <Name>Com.Bekijkhet.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Com.Bekijkhet.Lora\Com.Bekijkhet.Lora.csproj">
       <Project>{2658618A-1674-4738-A517-38FCBE130DC0}</Project>
@@ -71,6 +67,10 @@
     <ProjectReference Include="..\Com.Bekijkhet.MyRouter.DalPsql\Com.Bekijkhet.MyRouter.DalPsql.csproj">
       <Project>{A649EE22-854E-4053-9047-55BF6509EF8D}</Project>
       <Name>Com.Bekijkhet.MyRouter.DalPsql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj">
+      <Project>{7F8602B0-7F7A-4312-8570-4F1566128516}</Project>
+      <Name>Com.Bekijkhet.Logger</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

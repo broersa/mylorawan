@@ -1,24 +1,18 @@
 ﻿using System;
-using Microsoft.ApplicationInsights;
+using log4net;
 
 namespace Com.Bekijkhet.Logger
 {
-    public static class Log
+    public class Log
     {
-        private static TelemetryClient _telemetry = new TelemetryClient();
-
-        public static void Info(string message, DateTime duration)
+        public static void Info(ILog log, string message, DateTime duration)
         {
-            _telemetry.TrackTrace(message, Microsoft.ApplicationInsights.DataContracts.SeverityLevel.Information);
-            _telemetry.Flush ();
-            Console.WriteLine(message);
+            log.Info(message);
         }
 
-        public static void Error(Exception e, DateTime duration)
+        public static void Error(ILog log, string message, DateTime duration, Exception ex)
         {
-            _telemetry.TrackException(e);
-            _telemetry.Flush ();
-            Console.WriteLine(e.ToString());
+            log.Error(message, ex);
         }
     }
 }

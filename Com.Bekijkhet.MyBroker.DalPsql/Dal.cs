@@ -224,12 +224,12 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
         {
             long returnValue = -1;
             await this.Connect();
-            using (var cmd = new NpgsqlCommand("insert into sessions (sesdev, sesdevnonce, sesappnonce, sesnwkaddr, sesnwkskey, sesappskey, sesactive) values (@sesdev, @sesdevnonce, @sesappnonce, @sesnwkaddr, @sesnwkskey, @sesappskey, @sesactive) returning seskey;", _SqlConnection, _SqlTransaction))
+            using (var cmd = new NpgsqlCommand("insert into sessions (sesdev, sesdevnonce, sesappnonce, sesnwk, sesnwkskey, sesappskey, sesactive) values (@sesdev, @sesdevnonce, @sesappnonce, @sesnwk, @sesnwkskey, @sesappskey, @sesactive) returning seskey;", _SqlConnection, _SqlTransaction))
             {
                 cmd.Parameters.AddWithValue("@sesdev", session.Device);
                 cmd.Parameters.AddWithValue("@sesdevnonce", session.DevNonce);
                 cmd.Parameters.AddWithValue("@sesappnonce", session.AppNonce);
-                cmd.Parameters.AddWithValue("@sesnwkaddr", session.NwkAddr);
+                cmd.Parameters.AddWithValue("@sesnwk", session.NwkAddr);
                 cmd.Parameters.AddWithValue("@sesnwkskey", session.NwkSKey);
                 cmd.Parameters.AddWithValue("@sesappskey", session.AppSKey);
                 cmd.Parameters.AddWithValue("@sesactive", session.Active);
@@ -243,7 +243,7 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
         {
             Session returnvalue = null;
             await this.Connect();
-            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwkaddr, sesnwkskey, sesappskey, sesactive from sessions seskey=@seskey", _SqlConnection, _SqlTransaction))
+            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwk, sesnwkskey, sesappskey, sesactive from sessions where seskey=@seskey", _SqlConnection, _SqlTransaction))
             {
                 cmd.Parameters.AddWithValue("@seskey", id);
                 using (var dr = await cmd.ExecuteReaderAsync())
@@ -270,7 +270,7 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
         {
             Session returnvalue = null;
             await this.Connect();
-            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwkaddr, sesnwkskey, sesappskey, sesactive from sessions sesdev=@sesdev and sesactive > now()", _SqlConnection, _SqlTransaction))
+            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwk, sesnwkskey, sesappskey, sesactive from sessions where sesdev=@sesdev and sesactive > now()", _SqlConnection, _SqlTransaction))
             {
                 cmd.Parameters.AddWithValue("@sesdev", device);
                 using (var dr = await cmd.ExecuteReaderAsync())
@@ -298,7 +298,7 @@ namespace Com.Bekijkhet.MyBroker.DalPsql
             Session returnvalue = null;
             try {
             await this.Connect();
-            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwkaddr, sesnwkskey, sesappskey, sesactive from sessions sesdev=@sesdev and sesdevnonce=@sesdevnonce and sesactive > now()", _SqlConnection, _SqlTransaction))
+            using (var cmd = new NpgsqlCommand("SELECT seskey, sesdev, sesdevnonce, sesappnonce, sesnwk, sesnwkskey, sesappskey, sesactive from sessions where sesdev=@sesdev and sesdevnonce=@sesdevnonce and sesactive > now()", _SqlConnection, _SqlTransaction))
             {
                 cmd.Parameters.AddWithValue("@sesdev", device);
                 cmd.Parameters.AddWithValue("@sesdevnonce", devnonce);

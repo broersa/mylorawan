@@ -128,10 +128,29 @@ namespace Com.Bekijkhet.Lora
             RijndaelManaged rDel = new RijndaelManaged();
             rDel.Key = appkey;
             rDel.Mode = CipherMode.ECB; // http://msdn.microsoft.com/en-us/library/system.security.cryptography.ciphermode.aspx
+            rDel.Padding = PaddingMode.None;
             ICryptoTransform cTransform = rDel.CreateDecryptor();
             return cTransform.TransformFinalBlock(data, 0, data.Length);
         }
 
+        public UnconfirmedDataDown UnmarshalUnconfirmedDataDown(byte[] message)
+        {
+            var returnvalue = new UnconfirmedDataDown();
+            returnvalue.Mhdr = UnmarshalMhdr(message[0]);
+
+            var fctrl = UnmarshalFCtrlDownlink(message[5]);
+
+            var fhdr = new byte[7 + fctrl.FOptsLen];
+            Buffer.BlockCopy(message, 1, fhdr, 0, 7 + fctrl.FOptsLen);
+            returnvalue.Fhdr = UnmarshalFhdrDownlink(fhdr, fctrl);
+            if (message.Length - 1/*mhdr*/ - 7/*fhdr*/ - fctrl.FOptsLen - 4/*mic*/ > 0) {
+                returnvalue.FPort = message[1 + 7 + fctrl.FOptsLen];
+                var frmpayloadsize = message.Length - 1/*mhdr*/ - 7/*fhdr*/ - fctrl.FOptsLen - 1/*fport*/ - 4/*mic*/;
+                returnvalue.FRMPayload = new byte[frmpayloadsize];
+                Buffer.BlockCopy(message, 1 + 7 + fctrl.FOptsLen + 1, returnvalue.FRMPayload, 0, frmpayloadsize);
+            }
+            return returnvalue;
+        }
 
         #endregion
 
@@ -146,6 +165,31 @@ namespace Com.Bekijkhet.Lora
         private byte MarshalMhdr(Mhdr mhdr)
         {
             return (byte)((((byte)mhdr.MType) << ((byte)5)) + mhdr.Major);
+        }
+
+        private FCtrlDownlink UnmarshalFCtrlDownlink(byte fctrl)
+        {
+            return new FCtrlDownlink() {
+                ADR = (fctrl & 128) == 128,
+                ADRACKReq = (fctrl & 64) == 64,
+                ACK = (fctrl & 32) == 32,
+                FPending = (fctrl & 16) == 16,
+                FOptsLen = (byte)(fctrl & (8 + 4 + 2 + 1))
+            };
+        }
+         
+        private FhdrDownlink UnmarshalFhdrDownlink(byte[] fhdr, FCtrlDownlink fctrl)
+        {
+            var returnvalue = new FhdrDownlink();
+            returnvalue.DevAddr = new byte[4];
+            Buffer.BlockCopy(fhdr, 0, returnvalue.DevAddr, 0, 4);
+            returnvalue.FCtrl = fctrl;
+            returnvalue.FCnt = BitConverter.ToUInt16(fhdr, 5);
+            if (fctrl.FOptsLen > 0) {
+                returnvalue.FOpts = new byte[fctrl.FOptsLen];
+                Buffer.BlockCopy(fhdr, 7, returnvalue.FOpts, 0, fctrl.FOptsLen);
+            }
+            return returnvalue;
         }
 
         private byte[] AESEncrypt(byte[] key, byte[] iv, byte[] data)

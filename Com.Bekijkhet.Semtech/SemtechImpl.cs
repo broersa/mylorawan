@@ -65,8 +65,8 @@ namespace Com.Bekijkhet.Semtech
 
         public byte[] MarshalPullResp(PullResp pullresp)
         {
-            var json = JsonConvert.SerializeObject(pullresp.Txpk);
-            var bytes = StringToByteArray(json);
+            var json = "{\"txpk\":" + JsonConvert.SerializeObject(pullresp.Txpk) + "}";
+            var bytes = System.Text.Encoding.Default.GetBytes(json);
             var returnvalue = new byte[4 + bytes.Length];
             Buffer.SetByte(returnvalue, 0, pullresp.ProtocolVersion);
             Buffer.SetByte(returnvalue, 3, (byte)pullresp.Identifier);
@@ -75,6 +75,13 @@ namespace Com.Bekijkhet.Semtech
         }
 
         #endregion
+
+        static byte[] GetBytes(string str)
+        {
+            byte[] bytes = new byte[str.Length * sizeof(char)];
+            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+            return bytes;
+        }
 
         private static string ByteArrayToString(byte[] ba)
         {

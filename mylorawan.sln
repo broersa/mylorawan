@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Semtech", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Semtech.Tests", "Com.Bekijkhet.Semtech.Tests\Com.Bekijkhet.Semtech.Tests.csproj", "{CE450DA4-C821-44E3-87AD-A21EE22FB80D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Logger", "Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj", "{30BF2015-FCE7-4395-A846-031849A488A2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Lora", "Com.Bekijkhet.Lora\Com.Bekijkhet.Lora.csproj", "{2658618A-1674-4738-A517-38FCBE130DC0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.Console", "Com.Bekijkhet.MyBroker.Console\Com.Bekijkhet.MyBroker.Console.csproj", "{C234D50E-3AE3-4B93-9343-C74C958D3556}"
@@ -35,6 +33,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.Bll"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.BllImpl", "Com.Bekijkhet.MyBroker.BllImpl\Com.Bekijkhet.MyBroker.BllImpl.csproj", "{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.DalPsql.Tests", "Com.Bekijkhet.MyBroker.DalPsql.Tests\Com.Bekijkhet.MyBroker.DalPsql.Tests.csproj", "{683F0604-D60E-4278-8C99-C4D3AD7AA309}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Logger", "Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj", "{7F8602B0-7F7A-4312-8570-4F1566128516}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -53,10 +55,14 @@ Global
 		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Debug|x86.Build.0 = Debug|Any CPU
 		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Release|x86.ActiveCfg = Release|Any CPU
 		{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}.Release|x86.Build.0 = Release|Any CPU
-		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.ActiveCfg = Debug|x86
-		{30BF2015-FCE7-4395-A846-031849A488A2}.Debug|x86.Build.0 = Debug|x86
-		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.ActiveCfg = Release|x86
-		{30BF2015-FCE7-4395-A846-031849A488A2}.Release|x86.Build.0 = Release|x86
+		{683F0604-D60E-4278-8C99-C4D3AD7AA309}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{683F0604-D60E-4278-8C99-C4D3AD7AA309}.Debug|x86.Build.0 = Debug|Any CPU
+		{683F0604-D60E-4278-8C99-C4D3AD7AA309}.Release|x86.ActiveCfg = Release|Any CPU
+		{683F0604-D60E-4278-8C99-C4D3AD7AA309}.Release|x86.Build.0 = Release|Any CPU
+		{7F8602B0-7F7A-4312-8570-4F1566128516}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F8602B0-7F7A-4312-8570-4F1566128516}.Debug|x86.Build.0 = Debug|Any CPU
+		{7F8602B0-7F7A-4312-8570-4F1566128516}.Release|x86.ActiveCfg = Release|Any CPU
+		{7F8602B0-7F7A-4312-8570-4F1566128516}.Release|x86.Build.0 = Release|Any CPU
 		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Debug|x86.ActiveCfg = Debug|x86
 		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Debug|x86.Build.0 = Debug|x86
 		{8349A17F-C717-4A31-853C-5662CBB3EE9D}.Release|x86.ActiveCfg = Release|x86

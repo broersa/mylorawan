@@ -29,7 +29,7 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
                 var appkey = StringToByteArray(device.AppKey);
                 var joinrequestvalidated = _lora.UnmarshalJoinRequestAndValidate(appkey, data);
                 var devnonce = ByteArrayToString(joinrequestvalidated.DevNonce);
-                if ((await _dal.GetSessionOnDeviceDevNonceActive(device.Id, devnonce))==null)
+                if ((await _dal.GetSessionOnDeviceDevNonceActive(device.Id, devnonce))!=null)
                 {
                     throw new SessionAllreadyActiveException();
                 }
@@ -38,12 +38,12 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
                 await _dal.SetActiveSessionsInactive(device.Id);
                 await _dal.AddSession(new Com.Bekijkhet.MyBroker.Dal.Session() {
                     Device = device.Id,
-                    NwkAddr = freenwkaddr.NetworkAddress,
+                    NwkAddr = freenwkaddr.Id,
                     DevNonce = devnonce,
                     AppNonce = ByteArrayToString(appnonce),
                     NwkSKey = "",
                     AppSKey = "",
-                    Active = DateTime.UtcNow
+                    Active = DateTime.UtcNow.AddDays(1)
                 });
                 var joinaccept = new JoinAccept() {
                     Mhdr = new Mhdr() { MType = MType.JoinAccept, Major=1},
@@ -56,7 +56,6 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
                 };
 
                 returnvalue = _lora.MarshalJoinAccept(joinaccept, appkey);
-                        
 
                 _dal.CommitTransaction();
             }

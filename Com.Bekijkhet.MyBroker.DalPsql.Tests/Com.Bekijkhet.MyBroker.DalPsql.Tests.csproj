@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7F8602B0-7F7A-4312-8570-4F1566128516}</ProjectGuid>
+    <ProjectGuid>{683F0604-D60E-4278-8C99-C4D3AD7AA309}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Com.Bekijkhet.Logger</RootNamespace>
-    <AssemblyName>Com.Bekijkhet.Logger</AssemblyName>
+    <RootNamespace>Com.Bekijkhet.MyBroker.DalPsql.Tests</RootNamespace>
+    <AssemblyName>Com.Bekijkhet.MyBroker.DalPsql.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,16 +29,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Log.cs" />
+    <Compile Include="DalTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.DalPsql\Com.Bekijkhet.MyBroker.DalPsql.csproj">
+      <Project>{E3CCFE77-5BE0-4085-B5EB-C90D4CE61669}</Project>
+      <Name>Com.Bekijkhet.MyBroker.DalPsql</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.MyBroker.Dal\Com.Bekijkhet.MyBroker.Dal.csproj">
+      <Project>{8349A17F-C717-4A31-853C-5662CBB3EE9D}</Project>
+      <Name>Com.Bekijkhet.MyBroker.Dal</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

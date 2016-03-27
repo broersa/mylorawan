@@ -44,6 +44,9 @@
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -81,6 +84,10 @@
     <ProjectReference Include="..\Com.Bekijkhet.MyBroker.BllImpl\Com.Bekijkhet.MyBroker.BllImpl.csproj">
       <Project>{27BEC1CD-C400-4BA6-9B6F-B7ADDDD28630}</Project>
       <Name>Com.Bekijkhet.MyBroker.BllImpl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj">
+      <Project>{7F8602B0-7F7A-4312-8570-4F1566128516}</Project>
+      <Name>Com.Bekijkhet.Logger</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

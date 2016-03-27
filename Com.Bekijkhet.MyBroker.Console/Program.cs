@@ -2,15 +2,24 @@
 using Mono.Unix;
 using Nancy.Hosting.Self;
 using Mono.Unix.Native;
+using log4net;
+using Com.Bekijkhet.Logger;
+using log4net.Config;
 
 namespace Com.Bekijkhet.MyBroker.Console
 {
     class MainClass
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static void Main(string[] args)
         {
+            BasicConfigurator.Configure();
+
+            var now = DateTime.UtcNow;
+
             var uri = "http://localhost:8888";
-            System.Console.WriteLine("Starting Nancy on " + uri);
+            Log.Info(log, "Starting MyRouter on " + uri, DateTime.UtcNow);
 
             // initialize an instance of NancyHost
             var host = new NancyHost(new Uri(uri));
@@ -33,7 +42,7 @@ namespace Com.Bekijkhet.MyBroker.Console
                 System.Console.ReadLine();
             }
 
-            System.Console.WriteLine("Stopping Nancy");
+            Log.Info(log, "Stopping Nancy", DateTime.UtcNow);
             host.Stop();  // stop hosting
         }
     }
