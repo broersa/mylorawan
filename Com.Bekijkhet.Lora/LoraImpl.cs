@@ -44,21 +44,13 @@ namespace Com.Bekijkhet.Lora
             returnvalue.DevNonce = new byte[2];
             Buffer.BlockCopy(message, 17, returnvalue.DevNonce, 0, 2);
             returnvalue.Mic = new byte[4];
+            Buffer.BlockCopy(message, 19, returnvalue.Mic, 0, 4); 
             return returnvalue;
         }
 
         public JoinRequest UnmarshalJoinRequestAndValidate(byte[] appkey, byte[] message)
         {
-            var returnvalue = new JoinRequest();
-            returnvalue.Mhdr = UnmarshalMhdr(message[0]);
-            returnvalue.AppEUI = new byte[8];
-            Buffer.BlockCopy(message, 1, returnvalue.AppEUI, 0, 8);
-            returnvalue.DevEUI = new byte[8];
-            Buffer.BlockCopy(message, 9, returnvalue.DevEUI, 0, 8);
-            returnvalue.DevNonce = new byte[2];
-            Buffer.BlockCopy(message, 17, returnvalue.DevNonce, 0, 2);
-            returnvalue.Mic = new byte[4];
-            Buffer.BlockCopy(message, 19, returnvalue.Mic, 0, 4); 
+            var returnvalue = UnmarshalJoinRequest(message);
 
             var micpart = new byte[19];
             Buffer.BlockCopy(message, 0, micpart, 0, 19);
@@ -113,44 +105,123 @@ namespace Com.Bekijkhet.Lora
             return returnmessage;
         }
 
-        public static string Encrypt(string toEncrypt) {
-            byte[] keyArray = UTF8Encoding.UTF8.GetBytes("12345678901234567890123456789012"); // 256-AES key
-            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
+        private static byte[] Encrypt(byte[] data, byte[] key) {
             RijndaelManaged rDel = new RijndaelManaged();
-            rDel.Key = keyArray;
+            rDel.Key = key;
             rDel.Mode = CipherMode.ECB; // http://msdn.microsoft.com/en-us/library/system.security.cryptography.ciphermode.aspx
             ICryptoTransform cTransform = rDel.CreateEncryptor();
-            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+            return cTransform.TransformFinalBlock(data, 0, data.Length);
         }
 
-        public static byte[] Decrypt(byte[] data, byte[] appkey) {
+        private static byte[] Decrypt(byte[] data, byte[] key) {
             RijndaelManaged rDel = new RijndaelManaged();
-            rDel.Key = appkey;
+            rDel.Key = key;
             rDel.Mode = CipherMode.ECB; // http://msdn.microsoft.com/en-us/library/system.security.cryptography.ciphermode.aspx
             rDel.Padding = PaddingMode.None;
             ICryptoTransform cTransform = rDel.CreateDecryptor();
             return cTransform.TransformFinalBlock(data, 0, data.Length);
         }
 
-        public UnconfirmedDataDown UnmarshalUnconfirmedDataDown(byte[] message)
+        public byte[] GetNwkSKey(byte[] appkey, byte[] appnonce, byte[] netid, byte[] devnonce)
         {
-            var returnvalue = new UnconfirmedDataDown();
+            var returnvalue = new byte[16];
+            var data = new byte[16];
+            data[0]=0x01;
+            Buffer.BlockCopy(appnonce, 0, data, 1, 3);
+            Buffer.BlockCopy(netid, 0, data, 4, 3);
+            Buffer.BlockCopy(devnonce, 0, data, 7, 2);
+
+            Buffer.BlockCopy(Encrypt(data, appkey), 0, returnvalue, 0, 16);
+            return returnvalue;
+        }
+
+        public byte[] GetAppSKey(byte[] appkey, byte[] appnonce, byte[] netid, byte[] devnonce)
+        {
+            var returnvalue = new byte[16];
+            var data = new byte[16];
+            data[0]=0x02;
+            Buffer.BlockCopy(appnonce, 0, data, 1, 3);
+            Buffer.BlockCopy(netid, 0, data, 4, 3);
+            Buffer.BlockCopy(devnonce, 0, data, 7, 2);
+
+            Buffer.BlockCopy(Encrypt(data, appkey), 0, returnvalue, 0, 16);
+            return returnvalue;
+        }
+
+        public UnconfirmedDataUp UnmarshalUnconfirmedDataUp(byte[] message)
+        {
+            var returnvalue = new UnconfirmedDataUp();
             returnvalue.Mhdr = UnmarshalMhdr(message[0]);
 
-            var fctrl = UnmarshalFCtrlDownlink(message[5]);
+            var fctrl = UnmarshalFCtrlUplink(message[5]);
 
             var fhdr = new byte[7 + fctrl.FOptsLen];
             Buffer.BlockCopy(message, 1, fhdr, 0, 7 + fctrl.FOptsLen);
-            returnvalue.Fhdr = UnmarshalFhdrDownlink(fhdr, fctrl);
+            returnvalue.Fhdr = UnmarshalFhdrUplink(fhdr, fctrl);
             if (message.Length - 1/*mhdr*/ - 7/*fhdr*/ - fctrl.FOptsLen - 4/*mic*/ > 0) {
                 returnvalue.FPort = message[1 + 7 + fctrl.FOptsLen];
                 var frmpayloadsize = message.Length - 1/*mhdr*/ - 7/*fhdr*/ - fctrl.FOptsLen - 1/*fport*/ - 4/*mic*/;
                 returnvalue.FRMPayload = new byte[frmpayloadsize];
                 Buffer.BlockCopy(message, 1 + 7 + fctrl.FOptsLen + 1, returnvalue.FRMPayload, 0, frmpayloadsize);
             }
+            returnvalue.Mic = new byte[4];
+            Buffer.BlockCopy(message, message.Length - 4, returnvalue.Mic, 0, 4);
             return returnvalue;
         }
+
+        public UnconfirmedDataUp UnmarshalUnconfirmedDataUpAndValidate(byte[] nwkskey, byte[] message)
+        {
+            var returnvalue = UnmarshalUnconfirmedDataUp(message);
+
+            var data = new byte[16 + message.Length-4];
+            data[0] = 0x49;
+            data[5] = 0x00;
+            Buffer.BlockCopy(MarshalDevAddr(returnvalue.Fhdr.DevAddr), 0, data, 6, 4);
+            Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToUInt32(returnvalue.Fhdr.FCnt)), 0, data, 10, 4);
+            data[15] = (byte)(message.Length-4);
+
+            Buffer.BlockCopy(message, 0, data, 16, message.Length-4);
+
+            var mic = AESCMAC(nwkskey, data);
+
+            if (!(returnvalue.Mic[0] == mic[0] &&
+                returnvalue.Mic[1] == mic[1] &&
+                returnvalue.Mic[2] == mic[2] &&
+                returnvalue.Mic[3] == mic[3]))
+            {
+                throw new InvalidMICException();
+            }
+
+            return returnvalue;
+        }
+
+        public byte[] DecryptFRMPayload(byte[] key, UnconfirmedDataUp data)
+        {
+            var returnvalue = new byte[data.FRMPayload.Length];
+            int j = 0;
+            byte i = 1;
+            while (j < data.FRMPayload.Length) {
+                var partsize = data.FRMPayload.Length - (j * 16) >= 16 ? 16 : data.FRMPayload.Length - (j * 16);
+                var part = new byte[partsize];
+                Buffer.BlockCopy(data.FRMPayload, j, part, 0, partsize);
+
+                var buf = new byte[16];
+                buf[0] = 0x01;
+                buf[5] = 0x00;
+                Buffer.BlockCopy(MarshalDevAddr(data.Fhdr.DevAddr), 0, buf, 6, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToUInt32(data.Fhdr.FCnt)), 0, buf, 10, 4);
+                buf[15] = i;
+
+                var key2 = Encrypt(buf, key);
+                for (int x = 0; x < partsize; x++) {
+                    returnvalue[(j * 16) + x] = (byte)(part[x] ^ key2[x]);
+                }
+
+                j += 16;
+            }
+            return returnvalue;
+        }
+
 
         #endregion
 
@@ -167,22 +238,22 @@ namespace Com.Bekijkhet.Lora
             return (byte)((((byte)mhdr.MType) << ((byte)5)) + mhdr.Major);
         }
 
-        private FCtrlDownlink UnmarshalFCtrlDownlink(byte fctrl)
+        private FCtrlUplink UnmarshalFCtrlUplink(byte fctrl)
         {
-            return new FCtrlDownlink() {
+            return new FCtrlUplink() {
                 ADR = (fctrl & 128) == 128,
                 ADRACKReq = (fctrl & 64) == 64,
                 ACK = (fctrl & 32) == 32,
-                FPending = (fctrl & 16) == 16,
                 FOptsLen = (byte)(fctrl & (8 + 4 + 2 + 1))
             };
         }
          
-        private FhdrDownlink UnmarshalFhdrDownlink(byte[] fhdr, FCtrlDownlink fctrl)
+        private FhdrUplink UnmarshalFhdrUplink(byte[] fhdr, FCtrlUplink fctrl)
         {
-            var returnvalue = new FhdrDownlink();
-            returnvalue.DevAddr = new byte[4];
-            Buffer.BlockCopy(fhdr, 0, returnvalue.DevAddr, 0, 4);
+            var returnvalue = new FhdrUplink();
+            var devaddr = new byte[4];
+            Buffer.BlockCopy(fhdr, 0, devaddr, 0, 4);
+            returnvalue.DevAddr = UnmarshalDevAddr(devaddr);
             returnvalue.FCtrl = fctrl;
             returnvalue.FCnt = BitConverter.ToUInt16(fhdr, 5);
             if (fctrl.FOptsLen > 0) {
@@ -191,6 +262,21 @@ namespace Com.Bekijkhet.Lora
             }
             return returnvalue;
         }
+
+        private DevAddr UnmarshalDevAddr(byte[] devaddr)
+        {
+            var returnvalue = new DevAddr();
+            returnvalue.NwkId = (byte)(devaddr[0] >> 1);
+            devaddr[0] = (byte)(devaddr[0] & 1);
+            returnvalue.NwkAddr = BitConverter.ToUInt32(devaddr, 0);
+            return returnvalue;
+        }
+
+        public byte[] MarshalDevAddr(DevAddr devaddr)
+        {
+            return BitConverter.GetBytes(Convert.ToUInt32((devaddr.NwkId * 16777216) + devaddr.NwkAddr));
+        }
+
 
         private byte[] AESEncrypt(byte[] key, byte[] iv, byte[] data)
         {

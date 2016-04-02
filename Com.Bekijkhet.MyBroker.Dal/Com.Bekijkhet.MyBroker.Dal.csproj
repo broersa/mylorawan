@@ -35,7 +35,7 @@
     <Compile Include="Application.cs" />
     <Compile Include="Device.cs" />
     <Compile Include="Session.cs" />
-    <Compile Include="NwkAddr.cs" />
     <Compile Include="NotFoundException.cs" />
+    <Compile Include="DevAddr.cs" />
   </ItemGroup>
 </Project>

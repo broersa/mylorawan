@@ -6,8 +6,10 @@ namespace Com.Bekijkhet.MyRouter.BrokerClient
 {
     public class ReturnMessage
     {
-        [JsonProperty("Txpk")]
-        public Txpk Txpk {get;set;}
+        [JsonProperty("txresult")]
+        public bool TxResult { get; set; }
+        [JsonProperty("txpk")]
+        public Txpk Txpk { get; set; }
     }
 }
 

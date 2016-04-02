@@ -44,5 +44,7 @@
     <Compile Include="FhdrDownlink.cs" />
     <Compile Include="FCtrlUplink.cs" />
     <Compile Include="FhdrUplink.cs" />
+    <Compile Include="UnconfirmedDataUp.cs" />
+    <Compile Include="DevAddr.cs" />
   </ItemGroup>
 </Project>

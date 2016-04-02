@@ -28,8 +28,9 @@ namespace Com.Bekijkhet.MyBroker.Dal
 		Task<Session> GetSession(long id);
 		Task<Session> GetSessionOnDeviceActive(long device);
 		Task<Session> GetSessionOnDeviceDevNonceActive(long device, string devnonce);
+        Task<Session> GetSessionOnNwkIdNwkAddrActive(long netid, long nwkaddr);
 
-		Task<NwkAddr> GetFreeNwkAddr();
+        Task<DevAddr> GetFreeDevAddr(long netid);
 		Task SetActiveSessionsInactive(long device);
 
     }

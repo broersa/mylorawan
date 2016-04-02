@@ -8,8 +8,14 @@ namespace Com.Bekijkhet.Lora
         JoinRequest UnmarshalJoinRequest(byte[] message);
         JoinRequest UnmarshalJoinRequestAndValidate(byte[] appkey, byte[] message);
         byte[] MarshalJoinAccept(JoinAccept joinaccept, byte[] appkey);
-        UnconfirmedDataDown UnmarshalUnconfirmedDataDown(byte[] message);
+        UnconfirmedDataUp UnmarshalUnconfirmedDataUp(byte[] message);
+        UnconfirmedDataUp UnmarshalUnconfirmedDataUpAndValidate(byte[] nwkskey, byte[] message);
+        byte[] DecryptFRMPayload(byte[] key, UnconfirmedDataUp data);
+
         byte[] GetAppNonce();
+        byte[] GetNwkSKey(byte[] appkey, byte[] appnonce, byte[] netid, byte[] devnonce);
+        byte[] GetAppSKey(byte[] appkey, byte[] appnonce, byte[] netid, byte[] devnonce);
+        byte[] MarshalDevAddr(DevAddr devaddr);
     }
 }
 

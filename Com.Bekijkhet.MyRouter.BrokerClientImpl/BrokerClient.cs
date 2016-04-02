@@ -22,13 +22,14 @@ namespace Com.Bekijkhet.MyRouter.BrokerClientImpl
 
         public async Task<Com.Bekijkhet.MyRouter.BrokerClient.Broker> GetBrokerOnAppEUI(string appeui)
         {
-            _dal.BeginTransaction();
-            foreach (var b in await _dal.GetBrokers()) {
-                Console.WriteLine(b.Name);
-            }
-
             return new Com.Bekijkhet.MyRouter.BrokerClient.Broker() {
-                AppEUI = appeui,
+                Endpoint = "http://localhost:8888"
+            };
+        }
+
+        public async Task<Com.Bekijkhet.MyRouter.BrokerClient.Broker> GetBrokerOnDevAddr(string devaddr)
+        {
+            return new Com.Bekijkhet.MyRouter.BrokerClient.Broker() {
                 Endpoint = "http://localhost:8888"
             };
         }

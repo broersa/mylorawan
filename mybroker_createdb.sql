@@ -11,16 +11,17 @@ create table devices (
   devappkey varchar(32) unique not null
 );
 
-create table nwkaddrs (
-  nwkkey bigserial primary key,
-  nwkaddr bigint check (nwkaddr >= 0 and nwkaddr < '16777216'::bigint) not null
+create table devaddrs (
+  deakey bigserial primary key,
+  deanwkid bigint not null,
+  deanwkaddr bigint check (deanwkaddr >= 0 and deanwkaddr < '16777216'::bigint) not null
 );
 
 DO
 $do$
 BEGIN
 FOR i IN 0..10000 LOOP
-    insert into nwkaddrs (nwkaddr) values (i);
+    insert into devaddrs (deanwkid, deanwkaddr) values (0, i);
 END LOOP;
 END
 $do$;
@@ -28,7 +29,7 @@ $do$;
 create table sessions (
   seskey bigserial primary key,
   sesdev bigint references devices (devkey),
-  sesnwk bigint references nwkaddrs (nwkkey),
+  sesdea bigint references devaddrs (deakey),
   sesdevnonce varchar(4) not null,
   sesappnonce varchar(6) not null,
   sesnwkskey varchar(32) not null,

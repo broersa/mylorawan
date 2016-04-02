@@ -3,11 +3,14 @@ using Com.Bekijkhet.MyBroker.Bll;
 using System.Threading.Tasks;
 using Com.Bekijkhet.Lora;
 using System.Text;
+using log4net;
 
 namespace Com.Bekijkhet.MyBroker.BllImpl
 {
     public class Bll : IBll
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Com.Bekijkhet.MyBroker.Dal.IDal _dal;
         private ILora _lora;
 
@@ -33,28 +36,30 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
                 {
                     throw new SessionAllreadyActiveException();
                 }
-                var freenwkaddr = await _dal.GetFreeNwkAddr();
+                var nwkid = GetNwkId();
+                var freedevaddr = await _dal.GetFreeDevAddr(nwkid);
                 var appnonce = _lora.GetAppNonce();
+                var netid = GetNetId();
                 await _dal.SetActiveSessionsInactive(device.Id);
                 await _dal.AddSession(new Com.Bekijkhet.MyBroker.Dal.Session() {
                     Device = device.Id,
-                    NwkAddr = freenwkaddr.Id,
+                    DevAddr = freedevaddr.Id,
                     DevNonce = devnonce,
                     AppNonce = ByteArrayToString(appnonce),
-                    NwkSKey = "",
-                    AppSKey = "",
+                    NwkSKey = ByteArrayToString(_lora.GetNwkSKey(appkey, appnonce, netid, joinrequestvalidated.DevNonce)),
+                    AppSKey = ByteArrayToString(_lora.GetAppSKey(appkey, appnonce, netid, joinrequestvalidated.DevNonce)),
                     Active = DateTime.UtcNow.AddDays(1)
                 });
                 var joinaccept = new JoinAccept() {
                     Mhdr = new Mhdr() { MType = MType.JoinAccept, Major=1},
                     AppNonce = appnonce,
-                    NetId = GetNetId(),
-                    DevAddr = Convert.ToUInt32((GetNwkId()*16777216)+freenwkaddr.NetworkAddress),
+                    NetId = netid,
+                    DevAddr = Convert.ToUInt32((freedevaddr.NwkId*16777216)+freedevaddr.NwkAddr),
                     DlSettings = GetDlSettings(),
                     RxDelay = GetRxDelay(),
                     CfList = GetCfList()
                 };
-
+                        
                 returnvalue = _lora.MarshalJoinAccept(joinaccept, appkey);
 
                 _dal.CommitTransaction();
@@ -68,6 +73,25 @@ namespace Com.Bekijkhet.MyBroker.BllImpl
             }
             return returnvalue;
         }
+
+        public async Task<byte[]> ProcessUnconfirmedDataUp(byte[] data)
+        {
+            byte[] returnvalue = null;
+            
+            var unconfirmeddataup = _lora.UnmarshalUnconfirmedDataUp(data);
+            var session = await _dal.GetSessionOnNwkIdNwkAddrActive(unconfirmeddataup.Fhdr.DevAddr.NwkId, unconfirmeddataup.Fhdr.DevAddr.NwkAddr);
+            var validatedunconfirmeddataup = _lora.UnmarshalUnconfirmedDataUpAndValidate(StringToByteArray(session.NwkSKey), data);
+
+            if (validatedunconfirmeddataup.FRMPayload != null) {
+                if (validatedunconfirmeddataup.FPort > 0) {
+                    var value = _lora.DecryptFRMPayload(StringToByteArray(session.AppSKey), validatedunconfirmeddataup);
+                    log.Info("Data received: " + System.Text.Encoding.Default.GetString(value));
+                }
+            }
+
+            return returnvalue;
+        }
+
 
         #endregion
         

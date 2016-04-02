@@ -8,7 +8,7 @@ using System.Net;
 using System.Text;
 using Com.Bekijkhet.Lora;
 using Com.Bekijkhet.MyRouter.BrokerClient;
-using Com.Bekijkhet.MyRouter.Dal;
+//using Com.Bekijkhet.MyRouter.Dal;
 using log4net;
 
 namespace Com.Bekijkhet.MyRouter.Console
@@ -41,6 +41,7 @@ namespace Com.Bekijkhet.MyRouter.Console
                     Log.Info(log, "PUSH_DATA from " + message.RemoteEndPoint.Address.ToString() + ":" +message.RemoteEndPoint.Port.ToString(), now);
                     var pushdata = _semtech.UnmarshalPushData(message.Buffer);
                     IPEndPoint ep = null;
+                    Broker broker = null;
                     if (_gateways.TryGetValue(ByteArrayToString(pushdata.GatewayMACAddress), out ep))
                     {
                         var pushack = _semtech.MarshalPushAck(pushdata.RandomToken); 
@@ -52,7 +53,7 @@ namespace Com.Bekijkhet.MyRouter.Console
                             switch (_lora.GetMType(data[0])) {
                             case MType.JoinRequest:
                                 var joinrequest = _lora.UnmarshalJoinRequest(data);
-                                var broker = await _brokerclient.GetBrokerOnAppEUI(ByteArrayToString(joinrequest.AppEUI));
+                                broker = await _brokerclient.GetBrokerOnAppEUI(ByteArrayToString(joinrequest.AppEUI));
                                 var joinaccept = await _brokerclient.SendMessage(broker.Endpoint, new Message() { Rxpk = rxpk } );
                                 var pullresp = _semtech.MarshalPullResp(new PullResp() {
                                     ProtocolVersion = 1,
@@ -62,11 +63,16 @@ namespace Com.Bekijkhet.MyRouter.Console
                                 client.SendAsync(pullresp, pullresp.Length, ep);
                                 Log.Info(log, "PULL_RESP to " + ep.Address.ToString() + ":" +ep.Port.ToString(), now);
                                 break;
-                            case MType.ConfirmedDataDown:
-
+                            case MType.ConfirmedDataUp:
+                                // TODO
+                                var confirmeddataup = _lora.UnmarshalUnconfirmedDataUp(data);
+                                broker = await _brokerclient.GetBrokerOnDevAddr(ByteArrayToString(_lora.MarshalDevAddr(confirmeddataup.Fhdr.DevAddr)));
+                                await _brokerclient.SendMessage(broker.Endpoint, new Message() { Rxpk = rxpk } );
                                 break;
-                            case MType.UnconfirmedDataDown:
-                                var unconfirmeddatadown = _lora.UnmarshalUnconfirmedDataDown(data);
+                            case MType.UnconfirmedDataUp:
+                                var unconfirmeddataup = _lora.UnmarshalUnconfirmedDataUp(data);
+                                broker = await _brokerclient.GetBrokerOnDevAddr(ByteArrayToString(_lora.MarshalDevAddr(unconfirmeddataup.Fhdr.DevAddr)));
+                                await _brokerclient.SendMessage(broker.Endpoint, new Message() { Rxpk = rxpk } );
                                 break;
                             }
                         }
