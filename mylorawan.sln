@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.MyBroker.DalP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Com.Bekijkhet.Logger", "Com.Bekijkhet.Logger\Com.Bekijkhet.Logger.csproj", "{7F8602B0-7F7A-4312-8570-4F1566128516}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "root", "root", "{A697ADE2-2072-49BD-9803-A89E9A54EDB5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
